@@ -265,6 +265,4 @@ function lose() {
   image(img3,0,0,width,height); //Evil Prophet
   fire.play();
   text("Karma caught up, huh?", width/2, height/8);
-  pro.speak('Karma caught up, huh?');
-
 }
