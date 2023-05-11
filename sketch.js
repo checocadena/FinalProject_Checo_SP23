@@ -73,7 +73,7 @@ function setup() {
 
   boot.play(); //boot sound, rarely works
 
-  for (let i = 0; i < 10; i++) { // makes the clouds
+  for (let i = 0; i < 12; i++) { // makes the clouds
     clouds.push(new Cloud());
 }
 
@@ -87,7 +87,7 @@ function draw() {
   background(176, 224, 230);} //Beautiful sky blue background
   noStroke(); 
 
-  if (line == 1 && play2 == false){ //Plays the angel choir
+  if (line == 2 && play2 == false){ //Plays the angel choir
     angel.play();
     play2 = true
   }
@@ -133,11 +133,10 @@ function draw() {
   if (GameBegun == false) {
   textSize(20);
   textAlign(CENTER, CENTER);
-  text(script[line], width/2, height - 200); } //Following the text
+  text(script[line], width/2, height - height/8); } //Following the text
 
   if (line > 23 && GameBegun == false) {
     
-    //background(0);
     clouds = [];
     fire.stop();
     
@@ -150,7 +149,7 @@ function draw() {
     player.shapeColor = color(255, 0, 0);
     player.collider = 'd'
 
-    world.gravity.y = 6;
+    world.gravity.y = 8;
     floor = new Sprite();
     floor.y = height - 50;
     floor.w = width + 1000 ;
@@ -158,16 +157,16 @@ function draw() {
     floor.collider = 'static';
 
     obs = new Sprite();
-    obs.collider = 'd'
+    obs.collider = 'k'
     obs.width = 50;
 	  obs.height = 50;
-    obs.x = width - 30;
+    obs.x = width - 60;
     obs.y = height - 60;
     obs.friction = 0;
     obs.vel.x = -4;
 
     obs2 = new Sprite();
-    obs2.collider = 'd'
+    obs2.collider = 'k'
     obs2.width = 50;
 	  obs2.height = 50;
     obs2.x = width + 150;
@@ -176,7 +175,7 @@ function draw() {
     obs2.vel.x = -4;
 
     obs3 = new Sprite();
-    obs3.collider = 'd'
+    obs3.collider = 'k'
     obs3.width = 50;
 	  obs3.height = 50;
     obs3.x = width + 400;
@@ -201,7 +200,6 @@ function draw() {
     holder = obs.x;
     holder2 = obs2.x;
     holder3 = obs3.x;
-   
     
     text(text1, holder, height-150);
     text(text2, holder2, height-150);
@@ -219,16 +217,20 @@ function draw() {
       obs3.x = width + 14;
       text3 = random(sins);
     }
-    if (score > 3000){
-      win();
-    }
 
-    if (player.collides(obs || obs2 || obs3)) {
+    if (player.x < 0) {
       lose();
     }
-
-  
     
+    if (score > 2500){
+      win();
+    }
+    if (player.collides(obs||obs2||obs3)) {
+      lose();
+    }
+    if (player.collided(obs||obs2||obs3)) {
+      lose();
+    }
   }
 
 
@@ -262,6 +264,7 @@ function lose() {
   image(img4,0,0,width,height); //Flames
   image(img3,0,0,width,height); //Evil Prophet
   fire.play();
-  text("Karma caught up, huh?", width/2, 200);
+  text("Karma caught up, huh?", width/2, height/8);
+  pro.speak('Karma caught up, huh?');
 
 }
