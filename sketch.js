@@ -1,6 +1,5 @@
 let img;
 let img2;
-let cloudX = 0;
 let line = 0;
 let talking = false;
 let script = [ " ", "Hello my child", "I have awoken", "I am the prophet of artificial intelligence", 
@@ -9,7 +8,34 @@ let script = [ " ", "Hello my child", "I have awoken", "I am the prophet of arti
 "You cyberbullied 14 year olds on xbox live", "That one's ok, they deserved it - they know what they said", "It looks like you created fake profiles to see if your SO would cheat on you",
 "It also looks like you re-posted charities on instagram without actually donating", "You actually disliked a YouTube video once", "Siri remembers when you called her a bitch", 
 "...", "You are a cyber-sinner", "You shall now face eternal cyber-damnation" ];
+let clouds = [];
 
+class Cloud {
+  constructor() {
+    this.x = -100; 
+    this.y = random(height);
+    this.speed = random(0.1, 1); 
+  }
+
+  move() {
+    this.x += this.speed;
+    if (this.x > width) {
+      this.x = -100;
+      this.y = random(height);
+      this.speed = random(0.1, 1); 
+    }
+  }
+
+  display() {
+    noStroke();
+    fill(255);
+    ellipse(this.x + 40, 40 + this.y, 50, 30);
+    ellipse(this.x + 70, 80 + this.y, 40, 20);
+    ellipse(this.x + 90, 50 + this.y, 30, 20);
+    ellipse(this.x + 110, 60 + this.y, 40, 30);
+    ellipse(this.x + 130, 50 + this.y, 50, 20);
+  }
+}
 
 function preload() {
   img = loadImage('CyberProphet.png');
@@ -29,13 +55,20 @@ function setup() {
   talkingBeing.scale = 2;
   talkingBeing.frame = 1;
 
-  
+  for (let i = 0; i < 10; i++) {
+    clouds.push(new Cloud());
+}
 }
 
 function draw() {
   clear();
   background(176, 224, 230);
   noStroke();
+  
+  for (let i = 0; i < clouds.length; i++) {
+    clouds[i].move(); 
+    clouds[i].display(); 
+  }
 
   var pro = new p5.Speech(); 
   pro.setRate(0.75);
@@ -45,38 +78,6 @@ function draw() {
   pro.speak(script[line]);
   talking = false
   }
- 
-  y = 0;
-  Offset = 0;
-  ellipse(cloudX + 40, 40 + y, 50, 30);
-  ellipse(cloudX + 70, 80 + y, 40, 20);
-  ellipse(cloudX + 90, 50 + y, 30, 20);
-  ellipse(cloudX + 110, 60 + y, 40, 30);
-  ellipse(cloudX + 130, 50 + y, 50, 20);
-
-  y = 48;
-  Offset = 76;
-  ellipse(cloudX + Offset + 40, 40 + y, 50, 30);
-  ellipse(cloudX + Offset + 70, 80 + y, 40, 20);
-  ellipse(cloudX + Offset + 90, 50 + y, 30, 20);
-  ellipse(cloudX + Offset + 110, 60 + y, 40, 30);
-  ellipse(cloudX + Offset + 130, 50 + y, 50, 20);
-
-  y = 200;
-  Offset = 400;
-  ellipse(cloudX + Offset + 40, 40 + y, 50, 30);
-  ellipse(cloudX + Offset + 70, 80 + y, 40, 20);
-  ellipse(cloudX + Offset + 90, 50 + y, 30, 20);
-  ellipse(cloudX + Offset + 110, 60 + y, 40, 30);
-  ellipse(cloudX + Offset + 130, 50 + y, 50, 20);
-
-  y = 578;
-  Offset = 600;
-  ellipse(cloudX + Offset + 40, 40 + y, 50, 30);
-  ellipse(cloudX + Offset + 70, 80 + y, 40, 20);
-  ellipse(cloudX + Offset + 90, 50 + y, 30, 20);
-  ellipse(cloudX + Offset + 110, 60 + y, 40, 30);
-  ellipse(cloudX + Offset + 130, 50 + y, 50, 20);
 
   animation(talkingBeing, width/2, height/2);
   tint(255, millis() / 10 );
@@ -84,21 +85,13 @@ function draw() {
   if (line > 17){
   image(img3,0,0,width,height);
   }
-
-  
-
-cloudX += 1;
-
-if (cloudX > width + 100) {
-  cloudX = -100;
-}
-
-//fill(0);
+  fill(0);
   textSize(20);
   textAlign(CENTER, CENTER);
   text(script[line], width/2, height/2 + 300);
 
 }
+
 function keyPressed() {
   if (key == " ") {
     if (line < script.length) {
@@ -106,17 +99,4 @@ function keyPressed() {
   talking = true;
    pro.speak(script[line]);
   }
-}
-
-function cloud(){
-  fill(255);
-  for (let i = 0; i < 5; i++) {
-  y = random(height);
-  ellipse(cloudX + 40, 40 + y, 50, 30);
-  ellipse(cloudX + 70, 80 + y, 40, 20);
-  ellipse(cloudX + 90, 50 + y, 30, 20);
-  ellipse(cloudX + 110, 60 + y, 40, 30);
-  ellipse(cloudX + 130, 50 + y, 50, 20);
-  }
-
 }
