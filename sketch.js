@@ -1,8 +1,11 @@
 let img;
 let img2;
-let line = 0;
+let img3;
+let img4;
+let img5;
+let phrase = 0;
 let GameBegun = false;
-let talking = false; //Used to make sure it only says one line of the script at a time
+let talking = false; //Used to make sure it only says one phrase of the script at a time
 let play1= false; //Used to only play the sounds once
 let play2= false;
 let play3 = false;
@@ -17,7 +20,7 @@ let clouds = [];
 
 //let player;
 let sins = [ "Greed", "Lust", "Gluttony", "Sloth", "Wrath", "Envy", "Pride", "Aversion", "Desire", "Attachment", "Ignorance"];
-let obstacles = [];
+//let obstacles = [];
 let score = 0;
 
 class Cloud { // Class for the clouds in the background, they come back after leaving the screen and change position and speed
@@ -87,7 +90,7 @@ function draw() {
   background(176, 224, 230);} //Beautiful sky blue background
   noStroke(); 
 
-  if (line == 2 && play2 == false){ //Plays the angel choir
+  if (phrase == 2 && play2 == false){ //Plays the angel choir
     angel.play();
     play2 = true
   }
@@ -102,8 +105,8 @@ function draw() {
   pro.setPitch(0.3);
   pro.interrupt = true;
  
-  if (talking == true && GameBegun == false) { //Only way I got the bot to follow the words line by line
-  pro.speak(script[line]);
+  if (talking == true && GameBegun == false) { //Only way I got the bot to follow the words phrase by phrase
+  pro.speak(script[phrase]);
   talking = false
   }
   
@@ -113,7 +116,7 @@ function draw() {
   animation(talkingBeing, width/2, height/2); }
   
 
-  if (line > 17 && GameBegun == false){ //User gets sent to cyber-hell
+  if (phrase > 17 && GameBegun == false){ //User gets sent to cyber-hell
     fill(0);
     rect(0,0,width,height) //Backgroud
     image(img4,0,0,width,height); //Flames
@@ -124,7 +127,7 @@ function draw() {
   }
   }
 
-  if (line < 18 ) { //Black text for good prophet
+  if (phrase < 18 ) { //Black text for good prophet
     fill (0)
   }
   else {
@@ -133,9 +136,9 @@ function draw() {
   if (GameBegun == false) {
   textSize(20);
   textAlign(CENTER, CENTER);
-  text(script[line], width/2, height - height/8); } //Following the text
+  text(script[phrase], width/2, height - height/8); } //Following the text
 
-  if (line > 23 && GameBegun == false) {
+  if (phrase > 23 && GameBegun == false) {
     
     clouds = [];
     fire.stop();
@@ -225,10 +228,10 @@ function draw() {
     if (score > 2500){
       win();
     }
-    if (player.collides(obs||obs2||obs3)) {
+    if (player.collides(obs) || player.collides(obs2) || player.collides(obs3)) {
       lose();
     }
-    if (player.collided(obs||obs2||obs3)) {
+    if (player.collided(obs) || player.collides(obs2) || player.collides(obs3)) {
       lose();
     }
   }
@@ -237,11 +240,11 @@ function draw() {
 }
 
 function keyPressed() {
-  if (key == " ") { //Next line
-    if (line < script.length && GameBegun == false) {
-      line++; 
+  if (key == " ") { //Next phrase
+    if (phrase < script.length && GameBegun == false) {
+      phrase++; 
       talking = true;
-      pro.speak(script[line]); }
+      pro.speak(script[phrase]); }
     if (GameBegun == true) {
       player.vel.y = 30;
    }
